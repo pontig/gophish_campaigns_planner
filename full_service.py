@@ -16,7 +16,7 @@ from utils import *
 CSV_FILE_PATH  = "mock_emails.csv"
 CLIENT_NAME    = "Test Client"
 START_LAUNCH   = '2026/01/10'  # YYYY/MM/DD, that will be converted to ISO8601
-DURATION       = 365  # days
+DURATION       = 365  # days, all emails will be sent within this duration
 PAGE_NAME      = "Awareness"
 URL            = "https://phish.hackforce.ai"
 SMTP_NAME      = "Codin Marche"
