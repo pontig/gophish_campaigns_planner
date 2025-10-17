@@ -4,12 +4,16 @@ Each campaign targets subsets of recipients and uses a specified email template,
 """
 
 import random
+import urllib3
 from gophish.models import Campaign, Group, Page, Template, SMTP, User
+
+# Disable SSL warnings for localhost connections
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from utils import *
 
 # Config
-CSV_FILE_PATH  = "test_emails.csv"
+CSV_FILE_PATH  = "mock_emails.csv"
 CLIENT_NAME    = "Test Client"
 START_LAUNCH   = '2026/01/10'  # YYYY/MM/DD, that will be converted to ISO8601
 DURATION       = 365  # days
@@ -30,7 +34,7 @@ existing_templates = {t.name: t for t in api.templates.get()}
 groups = []
 # For each template, create a subset group (sample 80% of emails)
 for template_name, template in existing_templates.items():
-    subset_size = max(1, len(emails) // 5)
+    subset_size = max(1, len(emails) // 5) * 4
     subset_emails = random.sample(emails, min(subset_size, len(emails)))
 
     targets = [User(first_name=email[0], last_name=email[1], email=email[2]) for email in subset_emails]
@@ -38,10 +42,15 @@ for template_name, template in existing_templates.items():
     random.shuffle(targets)
     group = Group(name=f"Group for {CLIENT_NAME} - {template_name}", targets=targets)
     
-    created_group = api.groups.post(group)
+    try: 
+        created_group = api.groups.post(group)
+    except Exception as e:
+        print(f"Error creating group '{group.name}': {str(e)}")
+        created_group = group
+
     
     # Sample a launch date between MIN_LAUNCH_DATE and DEADLINE_DATE
-    launch_date = sample_date_between(MIN_LAUNCH_DATE, DEADLINE_DATE)
+    launch_date = sample_date_between(MIN_LAUNCH_DATE, dateFromDuration(MIN_LAUNCH_DATE, DURATION/2)) # All campaigns launch in the first half of the duration
     
     print(f"Created group '{created_group.name}' with {len(created_group.targets)} targets it should start on {launch_date}.")
     groups.append((created_group, template, launch_date))

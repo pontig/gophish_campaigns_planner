@@ -1,13 +1,18 @@
 from datetime import datetime, timezone, timedelta
 import random
+import urllib3
 from gophish import Gophish
 import os
 import csv
+
+# Disable SSL warnings for localhost connections
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def connect_gophish():
     HOST = "https://127.0.0.1:3333"
     
     API_KEY = os.environ.get("GOPHISH_API_KEY")
+    # API_KEY = '36fad20efc239fe9133094d636e96899d3eed5ce78d41422af63046425b80e06'
     if not API_KEY:
         raise ValueError("GOPHISH_API_KEY not set in environment, set it and retry.")
     
