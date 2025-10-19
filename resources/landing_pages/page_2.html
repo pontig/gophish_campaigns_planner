@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="it">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<title>Avviso Sicurezza &bull; Simulazione di Phishing</title>
+	<meta name="color-scheme" content="light dark"/>
+	<style type="text/css">:root{
+      --bg: #0b1020;
+      --panel:#101735;
+      --ink:#e9ecf8;
+      --muted:#b8c0e0;
+      --brand:#5b8cff;
+      --brand-2:#2dd4bf;
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f4f6fb; --panel:#ffffff; --ink:#0e1328; --muted:#475072;
+        --brand:#275efe; --brand-2:#0fbda9; --shadow: 0 12px 30px rgba(10,10,50,.08)
+      }
+    }
+    *{box-sizing: border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink); background: radial-gradient(1200px 800px at 15% -10%, rgba(39,94,254,.15), transparent 50%),
+               radial-gradient(1000px 700px at 100% -5%, rgba(45,212,191,.10), transparent 45%),
+               var(--bg);
+    }
+    .wrap{max-width:1100px; margin: 32px auto; padding: clamp(16px, 3vw, 28px)}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 18px 22px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.03));
+      border:1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:14px; text-decoration:none; color:inherit;
+    }
+    .brand svg{width:34px; height:34px}
+    .brand h1{font-size: clamp(18px, 2.4vw, 22px); margin:0; font-weight:700; letter-spacing:.2px}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      background: rgba(45,212,191,.12); color: var(--brand-2); font-weight:600; border:1px solid rgba(45,212,191,.35)
+    }
+    .hero{
+      margin-top:22px; padding: clamp(18px, 3vw, 28px); border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(91,140,255,.14), rgba(91,140,255,.08));
+      border:1px solid rgba(91,140,255,.35); box-shadow: var(--shadow);
+    }
+    .hero h2{margin:0 0 8px; font-size: clamp(22px, 4vw, 30px)}
+    .hero p{margin: 8px 0 0; color: var(--muted)}
+    .grid{display:grid; gap:18px; grid-template-columns: repeat(12, 1fr); margin-top:22px}
+    .card{
+      background: var(--panel); border:1px solid rgba(255,255,255,.08); border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow)
+    }
+    .span-7{grid-column: span 7}
+    .span-5{grid-column: span 5}
+    @media (max-width: 960px){
+      .span-7, .span-5{grid-column: 1 / -1}
+    }
+    h3{margin:0 0 10px; font-size: clamp(18px, 2.6vw, 20px)}
+    ul,ol{margin:8px 0 0 20px}
+    .kpi{display:flex; gap:14px; flex-wrap:wrap; margin-top:12px}
+    .chip{
+      border:1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 10px 12px; color: var(--muted);
+      display:flex; align-items:center; gap:10px; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.03))
+    }
+    .chip svg{width:18px; height:18px}
+    .cta{
+      display:flex; flex-wrap:wrap; gap:12px; margin-top: 18px
+    }
+    .btn, .btn-secondary{
+      display:inline-flex; align-items:center; gap:10px; border-radius: 12px; padding:12px 16px; font-weight:700; text-decoration:none; cursor:pointer;
+      border:1px solid transparent
+    }
+    .btn{ background: linear-gradient(180deg, var(--brand), #1743ff); color:#fff; }
+    .btn:hover{ filter: brightness(1.05) }
+    .btn-secondary{ background: transparent; color: var(--brand); border-color: rgba(91,140,255,.5) }
+    details{margin-top: 10px; border:1px dashed rgba(255,255,255,.18); border-radius:12px; padding: 12px}
+    details summary{cursor:pointer; font-weight:600}
+    .list-icon{list-style:none; padding:0; margin:10px 0 0}
+    .list-icon li{display:flex; gap:10px; align-items:flex-start; margin:10px 0}
+    .list-icon svg{width:20px; height:20px; flex:0 0 20px; margin-top:2px}
+    footer{
+      margin-top:22px; padding:16px 0 6px; color:var(--muted); font-size:14px; text-align:center;
+    }
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: rgba(255,255,255,.06); padding:.15em .4em; border-radius:6px}
+    .ok{color: var(--ok)} .warn{color: var(--warn)} .bad{color: var(--bad)}
+    .hr{height:1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); margin: 16px 0}
+    .muted{color: var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .mark{background: rgba(245,158,11,.15); border:1px solid rgba(245,158,11,.35); color: var(--ink); padding:.25em .45em; border-radius:8px}
+    .notice{
+      display:flex; gap:12px; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.03))
+    }
+    .notice svg{width:22px; height:22px; flex:0 0 22px}
+    a{color: var(--brand)}
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+	</style>
+</head>
+<body>
+<div class="wrap" role="main">
+<header aria-label="Intestazione"><a aria-label="Portale Sicurezza Aziendale" class="brand" href="#"><!-- Minimal inline logo --> <svg aria-hidden="true" fill="none" viewbox="0 0 64 64"> <defs> <lineargradient gradientunits="userSpaceOnUse" id="g1" x1="0" x2="64" y1="0" y2="64"> <stop stop-color="#5b8cff"></stop><stop offset="1" stop-color="#2dd4bf"></stop> </lineargradient> </defs> <rect height="40" rx="10" stroke="url(#g1)" stroke-width="3" width="56" x="4" y="8"></rect> <path d="M12 18h40M12 26h22" stroke="url(#g1)" stroke-linecap="round" stroke-width="3"></path> <circle cx="52" cy="46" fill="url(#g1)" r="8"></circle> <path d="M49 46l2 2 4-5" stroke="#0b1020" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path> </svg> </a>
+<h1><a aria-label="Portale Sicurezza Aziendale" class="brand" href="#">Portale Sicurezza Aziendale</a></h1>
+<a aria-label="Portale Sicurezza Aziendale" class="brand" href="#"> </a>
+
+<div aria-live="polite" class="badge"><!-- shield icon --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"> <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6"></path> <path d="M9 12l2.2 2.2L15 10.4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path> </svg> Simulazione di phishing</div>
+</header>
+
+<section aria-labelledby="titolo-principale" class="hero">
+<h2 id="titolo-principale">Sei arrivato qui perch&eacute; hai cliccato un link non sicuro durante una simulazione aziendale</h2>
+
+<p>Questa pagina fa parte di un esercizio di consapevolezza sulla sicurezza informatica. L&rsquo;obiettivo &egrave; aiutarti a riconoscere i segnali tipici di un&rsquo;email di phishing e a reagire correttamente.</p>
+
+<div aria-label="Azioni consigliate rapide" class="kpi" role="group">
+<div class="chip"><span class="sr-only">Suggerimento:</span>✔ Evita di inserire credenziali da link sospetti</div>
+
+<div class="chip">✔ Verifica sempre il mittente reale</div>
+
+<div class="chip">✔ Passa il mouse sul link prima di cliccare</div>
+</div>
+
+<div aria-label="CTA" class="cta" role="group"><a aria-describedby="cta-desc" class="btn" href="#best-practices">Come proteggerti </a> <a class="btn-secondary" href="#segnali"> Riconoscere il phishing </a> <span class="sr-only" id="cta-desc">Salta alla sezione con le migliori pratiche</span></div>
+</section>
+
+<div class="grid"><!-- Colonna sinistra -->
+<article aria-labelledby="segnali-h" class="card span-7" id="segnali">
+<h3 id="segnali-h">Segnali tipici di una mail di phishing</h3>
+
+<ul class="list-icon">
+	<li><!-- alert --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M12 3l9 16H3L12 3z" stroke="currentColor" stroke-width="1.6"></path><circle cx="12" cy="17" fill="currentColor" r="1"></circle><path d="M12 9v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+
+	<div><strong>Urgenza o minacce</strong>: &ldquo;il tuo account verr&agrave; disattivato&rdquo;, &ldquo;azione immediata&rdquo;, timer o scadenze aggressive.</div>
+	</li>
+	<li><!-- id card --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><rect height="14" rx="2" stroke="currentColor" stroke-width="1.6" width="18" x="3" y="5"></rect><circle cx="9" cy="12" r="2" stroke="currentColor" stroke-width="1.6"></circle><path d="M14 9h5M14 12h5M14 15h5" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+	<div><strong>Mittente camuffato</strong>: nome noto ma <span class="mark">dominio</span> diverso o anomalo (<code>info@micr0soft.com</code>).</div>
+	</li>
+	<li><!-- link --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M10.5 13.5l3-3" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path><path d="M7 14a4 4 0 010-6l2-2a4 4 0 016 6l-1 1" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+	<div><strong>Link ingannevoli</strong>: il testo mostra un sito conosciuto, ma passando il mouse l&rsquo;<em>URL reale</em> &egrave; diverso. Diffida di domini lunghi o con grafia alterata.</div>
+	</li>
+	<li><!-- attachment --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M7 12l6-6a4 4 0 116 6l-7 7a5 5 0 11-7-7l8-8" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+	<div><strong>Allegati sospetti</strong>: file compressi, eseguibili, macro in documenti Office o fatture non attese.</div>
+	</li>
+	<li><!-- pencil --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" stroke="currentColor" stroke-width="1.6"></path><path d="M14.06 6.19l2.12-2.12a1.5 1.5 0 112.12 2.12L16.19 8.31" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+	<div><strong>Errori ortografici</strong>, formattazione strana, loghi sgranati o stile poco professionale.</div>
+	</li>
+	<li><!-- lock --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><rect height="9" rx="2" stroke="currentColor" stroke-width="1.6" width="16" x="4" y="10"></rect><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+	<div><strong>Richieste di credenziali o MFA</strong> fuori dai canali abituali, anche tramite <em>QR code</em> o app di messaggistica.</div>
+	</li>
+</ul>
+
+<details><summary>Altri indizi tecnici utili</summary>
+
+<ul>
+	<li>Link a <code>http://</code> o certificati TLS non validi.</li>
+	<li>Domini di terzo livello insoliti o URL con lunghi parametri di tracking.</li>
+	<li>Indirizzi &ldquo;<span class="mono">no-reply</span>&rdquo; che chiedono di rispondere con dati sensibili.</li>
+</ul>
+</details>
+</article>
+<!-- Colonna destra -->
+
+<aside aria-labelledby="bp-h" class="card span-5" id="best-practices">
+<h3 id="bp-h">Best practice immediate</h3>
+
+<ol>
+	<li><strong>Fermati e verifica</strong>: se un messaggio crea ansia, &egrave; un segnale. Non farti pressare dal tempo.</li>
+	<li><strong>Controlla il mittente</strong>: espandi i dettagli del contatto e verifica il <em>dominio</em>.</li>
+	<li><strong>Ispeziona i link</strong>: passa il mouse sopra (senza clic) e leggi l&rsquo;URL reale. Su mobile, tieni premuto.</li>
+	<li><strong>Non inserire credenziali</strong> da link email. Accedi ai servizi solo digitando manualmente l&rsquo;indirizzo o dai segnalibri.</li>
+	<li><strong>Segnala subito</strong>: inoltra l&rsquo;email a <a href="mailto:soc@tua-azienda.example">soc@tua-azienda.example</a> o usa il pulsante &ldquo;Segnala Phish&rdquo;.</li>
+	<li>Se hai cliccato/allegato/aperto: <strong>disconnetti la VPN</strong>, <strong>avvisa l&rsquo;IT</strong> e <strong>cambia la password</strong> se necessario.</li>
+	<li>Abilita <strong>MFA</strong> ovunque possibile e usa un <strong>password manager</strong>.</li>
+	<li>Mantieni <strong>browser e plugin aggiornati</strong>.</li>
+</ol>
+
+<div class="hr">&nbsp;</div>
+
+<div aria-label="Nota sulla privacy" class="notice" role="note"><!-- info --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 8h.01M11 12h1v4" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+
+<div><strong>Trasparenza.</strong> Questa &egrave; una simulazione a fini formativi organizzata dalla tua azienda. <!-- PERSONALIZZA QUESTA RIGA CON LA POLITICA INTERNA --> Eventuali dati raccolti sono gestiti secondo la policy aziendale <a href="#">[inserire link/politica]</a>.</div>
+</div>
+</aside>
+</div>
+
+<section aria-labelledby="cosa-fare-h" class="card" style="margin-top:18px">
+<h3 id="cosa-fare-h">Cosa fare adesso</h3>
+
+<ul class="list-icon">
+	<li><!-- check --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle><path d="M8.5 12.5l2.5 2.5L16 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+
+	<div><strong>Chiudi</strong> questa pagina, torna alla posta e <strong>segnala</strong> il messaggio come sospetto.</div>
+	</li>
+	<li><!-- shield --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6"></path></svg>
+	<div>Se hai inserito credenziali o scaricato allegati, <strong>contatta subito</strong> il supporto IT: <a href="mailto:supporto@tua-azienda.example">supporto@tua-azienda.example</a></div>
+	</li>
+	<li><!-- book --><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M6 4h9a3 3 0 013 3v13H8a2 2 0 01-2-2V4z" stroke="currentColor" stroke-width="1.6"></path><path d="M6 18h12" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+	<div>Completa il breve modulo di feedback (1 minuto): <a href="#">[inserire link modulo]</a></div>
+	</li>
+</ul>
+
+<details style="margin-top:12px"><summary>Come controllare in Outlook/OWA senza rischi</summary>
+
+<ul>
+	<li><strong>Desktop</strong>: tasto destro sul link &rarr; &ldquo;Copia collegamento&rdquo; e incollalo in un editor di testo per ispezionarlo.</li>
+	<li><strong>Web</strong>: passa il mouse sul link e osserva l&rsquo;URL in basso a sinistra. Su mobile, tocco prolungato (senza rilasciare su &ldquo;apri&rdquo;).</li>
+	<li>Non fidarti dell&rsquo;<em>anteprima</em> del link nel corpo del messaggio.</li>
+</ul>
+</details>
+</section>
+
+<section aria-labelledby="faq-h" class="card" style="margin-top:18px">
+<h3 id="faq-h">FAQ rapide</h3>
+
+<details open=""><summary>Perch&eacute; sono stato reindirizzato qui?</summary>
+
+<p>Hai cliccato un link inserito volutamente in una simulazione per valutare e migliorare la consapevolezza sulla sicurezza.</p>
+</details>
+
+<details><summary>Le mie credenziali sono state raccolte?</summary>
+
+<p>Dipende dalla configurazione della simulazione. Consulta la policy interna <a href="#">[link]</a> o contatta <a href="mailto:soc@tua-azienda.example">soc@tua-azienda.example</a>.</p>
+</details>
+
+<details><summary>Posso ricevere formazione aggiuntiva?</summary>
+
+<p>S&igrave;: accedi al portale di formazione <a href="#">[link formazione]</a> o iscriviti al prossimo workshop aziendale.</p>
+</details>
+</section>
+
+<footer aria-label="Piè di pagina">
+<p class="muted">&copy; <!-- Inserisci nome azienda -->La Tua Azienda &bull; Centro di Sicurezza IT</p>
+
+<p class="muted">Contatti: <a href="mailto:soc@tua-azienda.example">soc@tua-azienda.example</a> &bull; <a href="#">Informativa</a></p>
+</footer>
+</div>
+<!-- ACCESSIBILITÀ: skip link -->
+
+<p><a class="sr-only" href="#best-practices">Salta al contenuto principale</a></p>
+</body>
+</html>

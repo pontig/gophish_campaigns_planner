@@ -11,8 +11,9 @@ from functools import reduce
 api = connect_gophish()
 
 summaries = api.campaigns.summary()
+groups = api.groups.get()
 
-# Group campaigns by client
+# Group campaigns and groups by client
 client_campaigns = {}
 for summary in summaries.campaigns:
     # Extract client name from campaign name format "Campaign for {client} - {template}"
@@ -23,23 +24,53 @@ for summary in summaries.campaigns:
             client_campaigns[client] = []
         client_campaigns[client].append(summary)
     else:
-        print(f"Warning: Campaign name '{summary.name}' does not match expected format.")
+        print(f"⚠️  \033[93mWarning: Campaign name '{summary.name}' does not match expected format.\033[0m")
+
+grouped_groups = {}
+for group in groups:
+    if " - " in group.name and group.name.startswith("Group for "):
+        client = group.name.split(" - ")[0].replace("Group for ", "")
+
+        if client not in grouped_groups:
+            grouped_groups[client] = []
+        grouped_groups[client].append(group)
+    else:
+        print(f"⚠️  \033[93mWarning: Group name '{group.name}' does not match expected format.\033[0m")
+        
+# Calculate email frequency across groups by client using functional programming
+for client, groups in grouped_groups.items():
+    # Extract all emails from all groups for this client
+    all_emails = reduce(lambda acc, group: acc + [target.email for target in group.targets], groups, [])
+    
+    # Count occurrences of each email
+    email_group_count = {}
+    for email in all_emails:
+        email_group_count[email] = email_group_count.get(email, 0) + 1
+
+    print(f"👤 \033[96mClient {client}:\033[0m")
+    for email, count in email_group_count.items():
+        print(f"  📮 {email}: this mail is targeted by \033[93m{count}\033[0m campaign(s)")
+
+print("\n\n")
 
 # Print grouped campaigns with global stats
 for client, campaigns in client_campaigns.items():
-    print(f"Client: {client}")
+    print(f"👤 \033[96mClient: {client}\033[0m")
     
     for summary in campaigns:
-        print(f"  Campaign '{summary.name}' ({summary.status}):")
-        print(f"    Sent: {summary.stats.sent}, Opened: {summary.stats.opened}, Clicked: {summary.stats.clicked}")
-        print(f"    Start Date: {summary.launch_date}, End Date: {summary.send_by_date}")
-    print("--------------------------------------------------")
+        status_emoji = "✅" if summary.status == "Completed" else "🔄"
+        campaign_title = summary.name.split(" - ", 1)[1] if " - " in summary.name else summary.name
+        print(f"  📧 \033[92mMail '{campaign_title}'\033[0m {status_emoji} \033[94m({summary.status})\033[0m:")
+        print(f"    📤 Sent: \033[93m{summary.stats.sent}\033[0m, 👁️  Opened: \033[95m{summary.stats.opened}\033[0m, 🖱️  Clicked: \033[91m{summary.stats.clicked}\033[0m")
+        print(f"    🚀 Start Date: \033[90m{summary.launch_date}\033[0m, ⏰ End Date: \033[90m{summary.send_by_date}\033[0m")
+    print("\033[35m" + "─" * 100 + "\033[0m")
     
     # Calculate global stats using functional programming
     total_sent = reduce(lambda acc, campaign: acc + campaign.stats.sent, campaigns, 0)
     total_opened = reduce(lambda acc, campaign: acc + campaign.stats.opened, campaigns, 0)
     total_clicked = reduce(lambda acc, campaign: acc + campaign.stats.clicked, campaigns, 0)
-    
-    print(f"  Global Stats - Sent: {total_sent}, Opened: {total_opened}, Clicked: {total_clicked}")
+
+    print(f"  📊 \033[1;97mGlobal Stats for client '{client}'\033[0m - 📤 Sent: \033[93m{total_sent}\033[0m, 👁️  Opened: \033[95m{total_opened}\033[0m, 🖱️  Clicked: \033[91m{total_clicked}\033[0m")
     print()
+    
     

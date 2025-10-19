@@ -13,8 +13,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from utils import *
 
 # Config
-CSV_FILE_PATH  = "mock_emails.csv"
-CLIENT_NAME    = "Test Client"
+CSV_FILE_PATH  = "mock_emails_2.csv"
+CLIENT_NAME    = "Test Client 3"
 START_LAUNCH   = '2026/01/10'  # YYYY/MM/DD, that will be converted to ISO8601
 DURATION       = 365  # days, all emails will be sent within this duration
 PAGE_NAME      = "Awareness"
@@ -37,23 +37,16 @@ for template_name, template in existing_templates.items():
     subset_size = max(1, len(emails) // 5) * 4
     subset_emails = random.sample(emails, min(subset_size, len(emails)))
 
-    targets = [User(first_name=email[0], last_name=email[1], email=email[2]) for email in subset_emails]
+    targets = [User(first_name=email[0], last_name=email[1], email=email[2], position=email[3]) for email in subset_emails]
     # Shuffle targets to ensure randomness
     random.shuffle(targets)
     group = Group(name=f"Group for {CLIENT_NAME} - {template_name}", targets=targets)
     
-    try: 
-        created_group = api.groups.post(group)
-    except Exception as e:
-        print(f"Error creating group '{group.name}': {str(e)}")
-        created_group = group
-
-    
     # Sample a launch date between MIN_LAUNCH_DATE and DEADLINE_DATE
     launch_date = sample_date_between(MIN_LAUNCH_DATE, dateFromDuration(MIN_LAUNCH_DATE, DURATION/2)) # All campaigns launch in the first half of the duration
     
-    print(f"Created group '{created_group.name}' with {len(created_group.targets)} targets it should start on {launch_date}.")
-    groups.append((created_group, template, launch_date))
+    print(f"Prepared group '{group.name}' with {len(group.targets)} targets it should start on {launch_date}.")
+    groups.append((group, template, launch_date))
 
 # Step 2: Create and launch campaigns for each group-template pair
 page = find_by_name(api.pages.get, PAGE_NAME, "Page")
@@ -64,6 +57,15 @@ confirm = input().strip().lower()
 if confirm != "y":
     print("Campaign creation aborted.")
     exit(0)
+
+# Create groups only after confirmation
+for i, (group, template, launch_date) in enumerate(groups):
+    try: 
+        created_group = api.groups.post(group)
+        groups[i] = (created_group, template, launch_date)
+        print(f"Created group '{created_group.name}' with {len(created_group.targets)} targets.")
+    except Exception as e:
+        print(f"Error creating group '{group.name}': {str(e)}")
 
 for group, template, launch_date in groups:
     campaign_name = f"Campaign for {CLIENT_NAME} - {template.name}"

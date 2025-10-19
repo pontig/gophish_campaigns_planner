@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il tuo ordine Amazon.it è stato spedito!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        /* Ensure responsive email client compatibility */
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        td {
+            padding: 0;
+        }
+
+        img {
+            border: 0;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+                padding: 0 10px !important;
+            }
+
+            .content-area {
+                padding: 20px !important;
+            }
+
+            .header-logo {
+                width: 80px !important;
+                height: auto !important;
+            }
+
+            .button-cell {
+                padding: 10px 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 p-0 m-0">
+
+    <table role="presentation" class="w-full" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td align="center" class="py-8 px-4">
+                <table role="presentation" class="max-w-xl w-full bg-white rounded-lg shadow-md container"
+                    cellpadding="0" cellspacing="0" border="0">
+                    <!-- Header Section -->
+                    <tr>
+                        <td class="p-5 bg-gray-900 rounded-t-lg">
+                            <table role="presentation" class="w-full" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td align="center">
+                                        <!-- Amazon Logo (Placeholder) -->
+                                        <img src="https://placehold.co/100x30/000000/ffffff?text=Amazon" alt="Amazon.it"
+                                            class="header-logo"
+                                            style="display: block; width: 100px; height: 30px; border-radius: 4px;">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content Section -->
+                    <tr>
+                        <td class="p-6 content-area">
+                            <h1 class="text-xl font-bold text-gray-800 mb-4">Il tuo ordine Amazon.it è stato spedito!
+                            </h1>
+
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Ciao {{.firstName}},
+                            </p>
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Ottime notizie! Il tuo recente ordine Amazon.it è stato spedito ed è in arrivo.
+                            </p>
+
+                            <table role="presentation" class="w-full mb-4" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td class="py-2 border-b border-gray-200">
+                                        <p class="text-sm text-gray-600 font-medium">Numero Ordine:</p>
+                                        <p class="text-base text-gray-800 font-semibold">104-5897654-1234567</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 border-b border-gray-200">
+                                        <p class="text-sm text-gray-600 font-medium">Consegna Prevista:</p>
+                                        <p class="text-base text-gray-800 font-semibold">Giovedì prossimo</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">
+                                        <p class="text-sm text-gray-600 font-medium">Articoli Spediti:</p>
+                                        <p class="text-base text-gray-800">Prodotto Generico (Quantità: 1)</p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p class="text-gray-700 leading-relaxed mb-6">
+                                Puoi tracciare il tuo pacco e visualizzare i dettagli del tuo ordine cliccando sul
+                                pulsante qui sotto:
+                            </p>
+
+                            <table role="presentation" class="w-full mb-6" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td align="center" class="button-cell">
+                                        <!-- Call to Action Button -->
+                                        <a href="{{.URL}}"
+                                            target="_blank"
+                                            class="inline-block bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-6 rounded-md shadow-md text-base transition duration-300 ease-in-out"
+                                            style="mso-padding-alt:0px; display:inline-block;">
+                                            <!--[if mso]><i style="letter-spacing: 25px;mso-font-width:-100%;mso-text-raise:30px;" hidden>&nbsp;</i><![endif]-->
+                                            <span style="mso-text-raise:15px; font-weight: bold;">Traccia il tuo
+                                                Pacco</span>
+                                            <!--[if mso]><i style="letter-spacing: 25px;mso-font-width:-100%;" hidden>&nbsp;</i><![endif]-->
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p class="text-gray-700 leading-relaxed text-sm mb-4">
+                                Puoi anche gestire i tuoi ordini e abbonamenti da <a
+                                    href="{{.URL}}" target="_blank"
+                                    class="text-blue-600 hover:underline">Il tuo account</a>.
+                            </p>
+
+                            <p class="text-gray-700 leading-relaxed text-sm mb-4">
+                                Grazie per aver acquistato su Amazon.it!
+                            </p>
+                            <p class="text-gray-700 leading-relaxed text-sm">
+                                Cordiali saluti,<br>
+                                Il Team Amazon.it
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer Section -->
+                    <tr>
+                        <td class="p-6 bg-gray-50 rounded-b-lg border-t border-gray-200">
+                            <p class="text-xs text-gray-500 text-center leading-relaxed">
+                                Questa email è stata inviata da Amazon.it. Si prega di non rispondere a questa email.
+                            </p>
+                            <p class="text-xs text-gray-500 text-center leading-relaxed">
+                                © 2024 Amazon.it, Inc. o le sue affiliate. Tutti i diritti riservati.
+                            </p>
+                            <p class="text-xs text-gray-500 text-center leading-relaxed mt-2">
+                                Per maggiori informazioni, visita <a href="{{.URL}}"
+                                    target="_blank" class="text-blue-500 hover:underline">Aiuto Amazon.it</a>.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
