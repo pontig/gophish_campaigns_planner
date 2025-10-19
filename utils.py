@@ -72,3 +72,46 @@ def sample_date_between(start_iso, end_iso):
     random_days = random.randint(0, delta.days)
     sampled_date = start_dt + timedelta(days=random_days)
     return sampled_date.isoformat()
+
+def render_client_html(client):
+    parts = []
+    parts.append(f"<div class=\"client\">\n  <h2>{client.client}</h2>")
+
+    parts.append(f"""  <p>Il seguente documento spiega l'andamento delle simulazioni di campagne phishing per il cliente {client.client}.</p>
+                        <p>La prima tabella elenca le email che sono state oggetto delle campagne simulate, con il numero di volte in cui ciascuna email è stata utilizzata.</p>
+                        <p>La seconda tabella raggruppa le campagne per template email, elencando per ciascuna il titolo, lo stato attuale, il numero di email inviate, aperte e cliccate, nonché le date di inizio e fine della campagna.</p>
+                        <br>
+                 """)
+
+    # Emails table
+    if client.emails:
+        parts.append("  <h3>Emails interessate nelle campagne</h3>")
+        parts.append("  <table>\n    <tr><th>Email</th><th>#</th></tr>")
+        for e in client.emails:
+            parts.append(f"    <tr><td>{e.email}</td><td>{e.count}</td></tr>")
+        parts.append("  </table>")
+
+    # Campaigns
+    if client.campaigns:
+        parts.append("  <h3 class=\"breakbefore\">Campagne</h3>")
+        parts.append("  <table>\n    <tr><th>Tipo email</th><th>Stato</th><th>Inviate</th><th>Aperte</th><th>Cliccate</th><th>Inizio</th><th>Fine</th></tr>")
+        for c in client.campaigns:
+            status_class = 'status-completed' if c.status == 'Completed' else 'status-active'
+            parts.append(
+                "    <tr>" +
+                f"<td>{c.title}</td><td class=\"{status_class}\">{c.status}</td>" +
+                f"<td>{c.sent}</td><td>{c.opened}</td><td>{c.clicked}</td><td>{c.launch_date[:10]}</td><td>{c.send_by_date[:10]}</td>" +
+                "</tr>"
+            )
+        parts.append("  </table>")
+
+    # Global stats
+    if client.global_stats:
+        gs = client.global_stats
+        parts.append(f"  <div class=\"stats\"> <div class=\"global-stats\"><b>Totale</b>📤 Inviate: {gs.get('sent',0)} &nbsp; 👁️ Aperte: {gs.get('opened',0)} &nbsp; 🖱️ Cliccate: {gs.get('clicked',0)}</div></div>")
+
+    parts.append("  <img src=\"https://www.getecom.it/wp-content/uploads/2024/02/LOGO.png\" alt=\"Getecom Logo\">")
+    parts.append("  <p>Generato automaticamente in data " + datetime.now(timezone.utc).isoformat()[:10] + "</p>")
+
+    parts.append("</div>")
+    return "\n".join(parts)
