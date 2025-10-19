@@ -7,12 +7,14 @@ Since the GoPhish campaigns provide only the sending of a single email for campa
 ## Usage
 
 1. Place your email data in a CSV, following the structure `First Name, Last Name, Email, Group`, as the GoPhish import requires.
-1. To launch a **full scale** phishing campaign, configure the first lines of `full_service.py` with your desired parameters, including the CSV file path, name of the client (identifying the set of GoPhish campaigns), start date, duration (in days), page name, URL, SMTP server name. __WIP: allow to use only a subset of the email list for each campaign__
+1. To launch a **full scale** phishing campaign, configure the first lines of `full_service.py` with your desired parameters, including the CSV file path, name of the client (identifying the set of GoPhish campaigns), start date, duration (in days), page name, URL, SMTP server name. *WIP: allow to use only a subset of the email list for each campaign*
 1. Run `full_service.py`. It will generate a many-to-many mapping of emails to email addresses over the specified duration, creating multiple GoPhish campaigns and groups as needed. Every campaign will be named according a specific pattern: `"Campaign for {client_name} - {email template}"`.
 
 ## Monitoring
 
 To see the status of your campaigns, you can use the `campaigns_summary.py` script, which will provide a summary of all the progresses made already grouped by client name.
+
+By running this script, in the same directory will be generated a report file named `campaigns_report.html`, which is a comprehensive HTML report summarizing the status of all campaigns and all users involved. This HTML file is meant to be printed in order to be used as a PDF file.
 
 ## Removing clients
 
