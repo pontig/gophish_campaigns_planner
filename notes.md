@@ -1,1 +1,0 @@
-name of the campaign: Campaign for {client_name} - {email template}

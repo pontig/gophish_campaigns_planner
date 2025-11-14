@@ -4,6 +4,16 @@ This project is designed to help users plan and manage phishing simulation campa
 
 Since the GoPhish campaigns provide only the sending of a single email for campaigns, this tool extends its functionality by allowing users to plan multiple emails to multiple groups over a specified duration.
 
+## Fundamental step
+
+Before using this tool, ensure you have a working GoPhish server set up and accessible. You will need to configure the [GoPhish API key](https://docs.getgophish.com/user-guide/documentation/changing-user-settings) as an environment variable named `GOPHISH_API_KEY`:
+
+```bash
+export GOPHISH_API_KEY="your_api_key_here"
+```
+
+being careful that the API key has a scope limited to the particular instance of terminal where you runned the command.
+
 ## Usage
 
 1. Place your email data in a CSV, following the structure `First Name, Last Name, Email, Group`, as the GoPhish import requires.
@@ -23,3 +33,10 @@ To remove all campaigns and groups associated with a specific client, use the `c
 ## Acknowledgements
 
 This project leverages the [GoPhish](https://github.com/gophish/gophish) API and is inspired by the need for more flexible phishing simulation campaigns in cybersecurity training.
+
+## Future Work (that I unlikely will do)
+
+- Implement an incremental reporting system to track progress over time.
+- Actually utilize the _Role_ field in the CSV for more targeted campaigns.
+- Implement a web interface for easier campaign management.
+- Add support for more complex scheduling options.
